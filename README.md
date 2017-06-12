@@ -1,6 +1,6 @@
 # Ilya the Game
 
-## Platform
+### Platform
 
 Will consist of several parts. Game engile for running all game logic. It takes
 user and some initial information. Then it keeps and manages game state
@@ -10,19 +10,35 @@ panel so people are able to generate game content through the web or from a tele
 In the future this will allow to handle authorization if we have to
 (probabli not).
 
-## Game state and actions
+### Actions
 
-The simplest action takes user to the next screen. More complex one
-changes game state. Inside the action descisions are made based on the
+The simplest action takes user to the next screen.
+
+More complex one changes game state. Inside the action descisions are made based on the
 current game state, so we need to provide one. We are not chaning the
 state in place, rather action returns a changed part and the next level.
 This allows recursion as the level can be the current one.
 As the state changes it provides a mechaninsm to exit the recursion.
 
 The critical part in action handling is a feedback as it can be edited
-in v
+in very restricted environment, like telegram chat. So action is able to
+transform any state, easy to test and fast to report about any error.
+
+### Screen
+
+The simplest screen is a story. It could take some variations too. Just
+plain text, text interpolated with values from some part of the game
+state, and a function with access to game state which contains some game
+logic and returns text part.
+
+### Title
+
+Just in case. It's nice to have one.
+
 
 ## Game map
+
+Here is a sketch of a possible game sript.
 
 ```
 const actionTypes = {
