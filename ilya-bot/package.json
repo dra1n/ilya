@@ -1,0 +1,26 @@
+{
+  "name": "ilya-bot",
+  "version": "0.0.1",
+  "description": "Telegram bot for a text adveture",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dra1n/ilya.git"
+  },
+  "keywords": [
+    "telegram",
+    "bot"
+  ],
+  "author": "dra1n",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dra1n/ilya/issues"
+  },
+  "homepage": "https://github.com/dra1n/ilya#readme",
+  "dependencies": {
+    "node-telegram-bot-api": "^0.27.1"
+  }
+}
