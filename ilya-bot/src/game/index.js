@@ -1,12 +1,9 @@
-class Game {
-  constructor({levels}) {
-    this.levels = levels
-    this.gameSessions = {}
-  }
+const Engine = require('./Engine')
+const SessionStorage = require('./SessionStorage')
+const SessionManager = require('./SessionManager')
 
-  createSession(chatId) {
-    this.gameSessions = {}
-  }
+module.exports = {
+  Engine,
+  SessionStorage,
+  SessionManager
 }
-
-module.exports = Game

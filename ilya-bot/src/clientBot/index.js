@@ -1,25 +1,39 @@
-module.exports = ({bot, game}) => {
+module.exports = ({ bot, game }) => {
+  const nextScreen = ({ session, chatId }) => {
+    const inlineKeyboard = session.currentPageActions.map((action, i) => ([{
+      text: action.description,
+      callback_data: i.toString()
+    }]))
+
+    bot.sendMessage(chatId, session.currentPageStory, {
+      reply_markup: {
+        inline_keyboard: inlineKeyboard
+      }
+    })
+  }
+
   const start = chatId => {
-    game.createSession(chatId)
-    bot.sendMessage(chatId, 'started')
+    const session = game.createSession(chatId, 'ilya')
+    nextScreen({ session, chatId })
+  }
+
+  const applyAction = (chatId, messageId, data) => {
+    const session = game.applyAction(chatId, 'ilya', parseInt(data, 10))
+    const messageCredentials = { chat_id: chatId, message_id: messageId }
+
+    const inlineKeyboard = session.currentPageActions.map((action, i) => ([{
+      text: action.description,
+      callback_data: i.toString()
+    }]))
+
+    bot.editMessageText(session.currentPageStory, messageCredentials)
+    bot.editMessageReplyMarkup({
+      inline_keyboard: inlineKeyboard
+    }, messageCredentials)
   }
 
   bot.onText(/^\/start$/, msg => start(msg.chat.id))
-
-  bot.on('callback_query', function onCallbackQuery(callbackQuery) {
-    const action = callbackQuery.data;
-    const msg = callbackQuery.message;
-    const opts = {
-      chat_id: msg.chat.id,
-      message_id: msg.message_id,
-    };
-    let text;
-
-    if (action === "1") {
-      text = 'You hit button 1';
-    }
-
-    bot.editMessageText(text, opts);
-  });
+  bot.on('callback_query', msg => {
+    applyAction(msg.from.id, msg.message.message_id, msg.data)
+  })
 }
-
