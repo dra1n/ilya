@@ -8,7 +8,7 @@ associated with this user. Admin engine handles all changes to the game, levels,
 actions, etc. This allows to create different interfaces to admin
 panel so people are able to generate game content through the web or from a telegram bot.
 In the future this will allow to handle authorization if we have to
-(probabli not).
+(probably not).
 
 ### Actions
 
@@ -61,7 +61,7 @@ const levels = {
     actions: [
       {
         type: actionTypes.NEXT_LEVEL,
-        link: 'healing'
+        link: 'healing',
         description: 'Встать с кровати'
       }
     ]
@@ -69,7 +69,7 @@ const levels = {
 
 
   healing: {
-    title: 'Чудесное исцеление'
+    title: 'Чудесное исцеление',
     story: `Что это? Чудесное исцеление? Возможно. Но как странные гости сумели исцелить, казалось бы, безнадежно больного? На этот счет существуют разные предположения. Например, что странники были волхвами и магами и знали секреты древних заговоров.
 
 А другие ученые предпогагают, что это был случай самоисцеления, объяснить который наука пока не в состоянии…
@@ -78,17 +78,17 @@ const levels = {
     actions: [
       {
         type: actionTypes.NEXT_LEVEL,
-        link: 'nightingale the robber'
+        link: 'nightingale the robber',
         description: 'Мочить Соловья-разбойника'
       },
       {
         type: actionTypes.NEXT_LEVEL,
-        link: 'other knights'
+        link: 'other knights',
         description: 'Подружиться с богатырями'
       },
       {
         type: actionTypes.NEXT_LEVEL,
-        link: 'monk'
+        link: 'monk',
         description: 'Постричься в монахи'
       },
     ]
@@ -103,7 +103,7 @@ const levels = {
     actions: [
       {
         type: actionTypes.NEXT_LEVEL,
-        link: 'other knights'
+        link: 'other knights',
         description: 'Подружиться с богатырями',
         unless(state) {
           return state.visitedLocations.includes('other knights')
@@ -111,7 +111,7 @@ const levels = {
       },
       {
         type: actionTypes.NEXT_LEVEL,
-        link: 'monk'
+        link: 'monk',
         description: 'Постричься в монахи',
         unless(state) {
           return state.visitedLocations.includes('monk')
