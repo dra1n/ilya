@@ -20,6 +20,13 @@ module.exports = ({ bot, game }) => {
 
   const applyAction = (chatId, messageId, data) => {
     const session = game.applyAction(chatId, 'ilya', parseInt(data, 10))
+    const messageCredentials = { chat_id: chatId, message_id: messageId }
+
+    // Remove inline keyboard from previous page
+    bot.editMessageReplyMarkup({
+      inline_keyboard: []
+    }, messageCredentials)
+
     nextScreen({ session, chatId })
   }
 
