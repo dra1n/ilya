@@ -1,9 +1,10 @@
 module.exports = ({ bot, game }) => {
   const nextScreen = ({ session, chatId }) => {
-    const inlineKeyboard = session.currentPageActions.map((action, i) => ([{
-      text: action.description,
-      callback_data: i.toString()
-    }]))
+    const inlineKeyboard = session.currentPageActions ?
+      session.currentPageActions.map((action, i) => ([{
+        text: action.description,
+        callback_data: i.toString()
+      }])) : []
 
     bot.sendMessage(chatId, session.currentPageStory, {
       reply_markup: {
@@ -19,17 +20,7 @@ module.exports = ({ bot, game }) => {
 
   const applyAction = (chatId, messageId, data) => {
     const session = game.applyAction(chatId, 'ilya', parseInt(data, 10))
-    const messageCredentials = { chat_id: chatId, message_id: messageId }
-
-    const inlineKeyboard = session.currentPageActions.map((action, i) => ([{
-      text: action.description,
-      callback_data: i.toString()
-    }]))
-
-    bot.editMessageText(session.currentPageStory, messageCredentials)
-    bot.editMessageReplyMarkup({
-      inline_keyboard: inlineKeyboard
-    }, messageCredentials)
+    nextScreen({ session, chatId })
   }
 
   bot.onText(/^\/start$/, msg => start(msg.chat.id))
