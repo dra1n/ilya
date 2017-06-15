@@ -16,7 +16,9 @@ class Session {
 
   applyAction(i) {
     const action = this.currentPageActions[i]
-    this.currentPage = action.link
+
+    this.updateVisitedLocations()
+    this.updateCurrentPage(action)
   }
 
   serialize() {
@@ -24,8 +26,20 @@ class Session {
       title: this.title,
       state: this.state,
       currentPage: this.currentPage,
-      pages: this.pages
+      pages: this.pages,
+      visitedLocations: this.visitedLocations
     }
+  }
+
+  // private
+
+  updateVisitedLocations() {
+    this.state.visitedLocations = this.state.visitedLocations || []
+    this.state.visitedLocations.push(this.currentPage)
+  }
+
+  updateCurrentPage(action) {
+    this.currentPage = action.link
   }
 }
 
