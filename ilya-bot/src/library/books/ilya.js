@@ -61,17 +61,17 @@ module.exports = {
           type: actionType.NEXT_LEVEL,
           link: 'other knights',
           description: 'Подружиться с богатырями',
-          unless(state) {
-            return state.visitedLocations.includes('other knights')
-          }
+          visible: `
+            display = !state.visitedLocations.includes('other knights')
+          `
         },
         {
           type: actionType.NEXT_LEVEL,
           link: 'monk',
           description: 'Постричься в монахи',
-          unless(state) {
-            return state.visitedLocations.includes('monk')
-          }
+          visible: `
+            display = !state.visitedLocations.includes('monk')
+          `
         }
       ]
     },
@@ -85,17 +85,17 @@ module.exports = {
           type: actionType.NEXT_LEVEL,
           link: 'nightingale the robber',
           description: 'Таки замочить Соловья-разбойника',
-          unless(state) {
-            return state.visitedLocations.includes('nightingale the robber')
-          }
+          visible: `
+            display = !state.visitedLocations.includes('nightingale the robber')
+          `
         },
         {
           type: actionType.NEXT_LEVEL,
           link: 'monk',
           description: 'Уйти в монастырь',
-          unless(state) {
-            return state.visitedLocations.includes('monk')
-          }
+          visible: `
+            display = !state.visitedLocations.includes('monk')
+          `
         }
       ]
     },

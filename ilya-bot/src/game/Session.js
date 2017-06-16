@@ -1,5 +1,9 @@
 class Session {
-  constructor({ title, state, currentPage, pages }) {
+  constructor(options) {
+    this.initialize(options)
+  }
+
+  initialize({ title, state, currentPage, pages }) {
     this.title = title
     this.state = state
     this.currentPage = currentPage
@@ -11,24 +15,33 @@ class Session {
   }
 
   get currentPageActions() {
-    return this.pages[this.currentPage].actions
+    return this.pages[this.currentPage].actions || []
   }
 
-  applyAction(i) {
-    const action = this.currentPageActions[i]
+  applyAction(i, scriptRunner) {
+    const availableActions = this.actionsForDisplay(scriptRunner)
+    const action = availableActions[i]
 
     this.updateVisitedLocations()
     this.updateCurrentPage(action)
   }
 
+  actionsForDisplay(scriptRunner) {
+    return this.currentPageActions.filter(this.isVisible.bind(this, scriptRunner))
+  }
+
   serialize() {
-    return {
+    return JSON.stringify({
       title: this.title,
       state: this.state,
       currentPage: this.currentPage,
       pages: this.pages,
       visitedLocations: this.visitedLocations
-    }
+    })
+  }
+
+  deserialize(jsonData) {
+    this.initialize(JSON.parse(jsonData))
   }
 
   // private
@@ -40,6 +53,21 @@ class Session {
 
   updateCurrentPage(action) {
     this.currentPage = action.link
+  }
+
+  isVisible(scriptRunner, action) {
+    if (!action.visible) {
+      return true
+    }
+
+    const sandbox = {
+      state: this.state,
+      display: true
+    }
+
+    scriptRunner.run(action.visible, sandbox)
+
+    return sandbox.display
   }
 }
 

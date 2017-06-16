@@ -10,7 +10,8 @@ class SessionManager {
     if (this.sessions[id]) {
       return this.sessions[id]
     } else if (this.sessionStorage.getData[id]) {
-      const session = new Session(this.sessionStorage.getData(id))
+      const session = new Session()
+      session.deserialize(this.sessionStorage.getData(id))
       this.sessions[id] = session
       return session
     }

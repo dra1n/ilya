@@ -1,10 +1,10 @@
 module.exports = ({ bot, game }) => {
   const nextScreen = ({ session, chatId }) => {
-    const inlineKeyboard = session.currentPageActions ?
-      session.currentPageActions.map((action, i) => ([{
-        text: action.description,
-        callback_data: i.toString()
-      }])) : []
+    const actionsForDisplay = game.actionsForDisplay(session)
+    const inlineKeyboard = actionsForDisplay.map((action, i) => ([{
+      text: action.description,
+      callback_data: i.toString()
+    }]))
 
     bot.sendMessage(chatId, session.currentPageStory, {
       reply_markup: {
