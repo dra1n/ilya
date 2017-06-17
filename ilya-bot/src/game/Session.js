@@ -1,3 +1,5 @@
+const { actionType } = require('../Library')
+
 class Session {
   constructor(options) {
     this.initialize(options)
@@ -23,7 +25,7 @@ class Session {
     const action = availableActions[i]
 
     this.updateVisitedLocations()
-    this.updateCurrentPage(action)
+    this.dispatchAndApply(action)
   }
 
   actionsForDisplay(scriptRunner) {
@@ -45,6 +47,15 @@ class Session {
   }
 
   // private
+
+  dispatchAndApply(action) {
+    switch(action.type) {
+    case actionType.NEXT_LEVEL:
+      return this.updateCurrentPage(action)
+    default:
+      return false
+    }
+  }
 
   updateVisitedLocations() {
     this.state.visitedLocations = this.state.visitedLocations || []
