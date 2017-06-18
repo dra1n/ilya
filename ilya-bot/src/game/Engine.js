@@ -3,7 +3,8 @@ class Engine {
     SessionStorage,
     SessionManager,
     Library,
-    ScriptRunner
+    ScriptRunner,
+    TemplateEngine
   }) {
     this.sessionStorage = new SessionStorage()
     this.sessionManager = new SessionManager({
@@ -11,14 +12,19 @@ class Engine {
     })
     this.library = new Library()
     this.scriptRunner = new ScriptRunner()
+    this.templateEngine = new TemplateEngine()
   }
 
   applyAction(chatId, bookId, index) {
     const book = this.getBook(bookId)
     const session = this.sessionManager.getOrCreateSession(chatId, book)
     return this.withPersistence(chatId, session)(s =>
-      s.applyAction(index, this.scriptRunner)
+      s.applyAction(index, { scriptRunner: this.scriptRunner })
     )
+  }
+
+  currentPageStory(session) {
+    return session.currentPageStory({ templateEngine: this.templateEngine })
   }
 
   createSession(chatId, bookId) {
@@ -27,7 +33,7 @@ class Engine {
   }
 
   actionsForDisplay(session) {
-    return session.actionsForDisplay(this.scriptRunner)
+    return session.actionsForDisplay({ scriptRunner: this.scriptRunner })
   }
 
   // private

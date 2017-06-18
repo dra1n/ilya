@@ -12,23 +12,23 @@ class Session {
     this.pages = pages
   }
 
-  get currentPageStory() {
-    return this.pages[this.currentPage].story
+  currentPageStory({ templateEngine }) {
+    return templateEngine.interpolate(this.pages[this.currentPage].story, this.state)
   }
 
   get currentPageActions() {
     return this.pages[this.currentPage].actions || []
   }
 
-  applyAction(i, scriptRunner) {
-    const availableActions = this.actionsForDisplay(scriptRunner)
+  applyAction(i, context) {
+    const availableActions = this.actionsForDisplay(context)
     const action = availableActions[i]
 
     this.updateVisitedLocations()
-    this.dispatchAndApply(action)
+    this.dispatchAndApply(action, context)
   }
 
-  actionsForDisplay(scriptRunner) {
+  actionsForDisplay({ scriptRunner }) {
     return this.currentPageActions.filter(this.isVisible.bind(this, scriptRunner))
   }
 
@@ -48,10 +48,12 @@ class Session {
 
   // private
 
-  dispatchAndApply(action) {
+  dispatchAndApply(action, context) {
     switch(action.type) {
     case actionType.NEXT_LEVEL:
-      return this.updateCurrentPage(action)
+      return this.updateCurrentPage(action, context)
+    case actionType.UPDATE_STATE:
+      return this.updateGameState(action, context)
     default:
       return false
     }
@@ -64,6 +66,16 @@ class Session {
 
   updateCurrentPage(action) {
     this.currentPage = action.link
+  }
+
+  updateGameState(action, { scriptRunner }) {
+    const sandbox = {
+      state: this.state,
+			link: null
+    }
+
+    scriptRunner.run(action.update, sandbox)
+    this.currentPage = sandbox.link
   }
 
   isVisible(scriptRunner, action) {

@@ -6,7 +6,7 @@ module.exports = ({ bot, game }) => {
       callback_data: i.toString()
     }]))
 
-    bot.sendMessage(chatId, session.currentPageStory, {
+    bot.sendMessage(chatId, game.currentPageStory(session), {
       reply_markup: {
         inline_keyboard: inlineKeyboard
       }

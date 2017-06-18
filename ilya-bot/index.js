@@ -7,6 +7,7 @@ const GameEngine = require('./src/game').Engine
 const SessionStorage = require('./src/game').SessionStorage
 const SessionManager = require('./src/game').SessionManager
 const ScriptRunner = require('./src/game').ScriptRunner
+const TemplateEngine = require('./src/game').TemplateEngine
 
 const Library = require('./src/library').Library
 
@@ -16,7 +17,8 @@ const game = new GameEngine({
   SessionStorage,
   Library,
   SessionManager,
-  ScriptRunner
+  ScriptRunner,
+  TemplateEngine
 })
 
 startBot({ bot, game })
