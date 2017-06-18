@@ -5,9 +5,18 @@ class Session {
     this.initialize(options)
   }
 
-  initialize({ title, state, currentPage, pages }) {
+  initialize({
+    title,
+    initialState,
+    state,
+    startPage,
+    currentPage,
+    pages
+  }) {
     this.title = title
+    this.initialState = initialState
     this.state = state
+    this.startPage = startPage
     this.currentPage = currentPage
     this.pages = pages
   }
@@ -54,6 +63,8 @@ class Session {
       return this.updateCurrentPage(action, context)
     case actionType.UPDATE_STATE:
       return this.updateGameState(action, context)
+    case actionType.RESTART_GAME:
+      return this.restartGame()
     default:
       return false
     }
@@ -76,6 +87,11 @@ class Session {
 
     scriptRunner.run(action.update, sandbox)
     this.currentPage = sandbox.link
+  }
+
+  restartGame() {
+    this.currentPage = this.startPage
+    this.state = this.initialState
   }
 
   isVisible(scriptRunner, action) {

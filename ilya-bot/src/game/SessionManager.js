@@ -1,3 +1,4 @@
+const cloneDeep = require('clone-deep')
 const Session = require('./Session')
 
 class SessionManager {
@@ -29,7 +30,9 @@ class SessionManager {
   createSessionData(book) {
     return {
       title: book.title,
-      state: book.initialState,
+      initialState: cloneDeep(book.initialState),
+      state: cloneDeep(book.initialState),
+      startPage: book.startPage,
       currentPage: book.startPage,
       pages: book.pages
     }

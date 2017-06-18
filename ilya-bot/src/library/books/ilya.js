@@ -147,8 +147,7 @@ module.exports = {
       actions: [
         {
           description: 'Ух ты! Давай еще раз',
-          type: actionType.NEXT_LEVEL,
-          link: 'intro'
+          type: actionType.RESTART_GAME
         }
       ]
     }
