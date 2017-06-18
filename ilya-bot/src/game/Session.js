@@ -12,12 +12,12 @@ class Session {
     this.pages = pages
   }
 
-  currentPageStory({ templateEngine }) {
-    return templateEngine.interpolate(this.pages[this.currentPage].story, this.state)
-  }
-
   get currentPageActions() {
     return this.pages[this.currentPage].actions || []
+  }
+
+  currentPageStory({ templateEngine }) {
+    return templateEngine.interpolate(this.pages[this.currentPage].story, this.state)
   }
 
   applyAction(i, context) {
